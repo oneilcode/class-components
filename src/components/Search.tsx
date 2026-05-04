@@ -42,10 +42,12 @@ export default class Search extends Component<SearchProps, SearchState> {
         this.setState({ lastSearchItem: trimmed });
 
         const data = await response.json();
-        const items = data.results.map((item) => ({
-          name: item.title,
-          description: item.description,
-        }));
+        const items = data.results.map(
+          (item: { title: string; description: string }) => ({
+            name: item.title,
+            description: item.description,
+          })
+        );
         this.props.onSearch(items);
         this.props.onLoadingChange(false);
       } else {
