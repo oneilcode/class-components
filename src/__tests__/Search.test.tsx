@@ -142,4 +142,78 @@ describe('Search Component', () => {
       ]);
     });
   });
+
+  it('trims whitespace from input', async () => {
+    const user = userEvent.setup();
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ results: [] }),
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    render(
+      <Search
+        onSearch={mockOnSearch}
+        onError={mockOnError}
+        onLoadingChange={mockOnLoadingChange}
+      />
+    );
+
+    const input = screen.getByRole('textbox');
+    const button = screen.getByRole('button');
+
+    await user.type(input, '  test  ');
+    await user.click(button);
+
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringContaining('q=test'));
+  });
+
+  it('does not search when input is empty', async () => {
+    const user = userEvent.setup();
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+
+    render(
+      <Search
+        onSearch={mockOnSearch}
+        onError={mockOnError}
+        onLoadingChange={mockOnLoadingChange}
+      />
+    );
+
+    const button = screen.getByRole('button');
+    await user.click(button);
+
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('does not search again if term unchanged', async () => {
+    const user = userEvent.setup();
+    let callCount = 0;
+    const fetchMock = vi.fn().mockImplementation(() => {
+      callCount++;
+      return Promise.resolve({
+        ok: true,
+        json: async () => ({ results: [] }),
+      });
+    });
+    vi.stubGlobal('fetch', fetchMock);
+
+    render(
+      <Search
+        onSearch={mockOnSearch}
+        onError={mockOnError}
+        onLoadingChange={mockOnLoadingChange}
+      />
+    );
+
+    const input = screen.getByRole('textbox');
+    const button = screen.getByRole('button');
+
+    await user.type(input, 'test');
+    await user.click(button);
+    await user.click(button);
+
+    expect(callCount).toBe(1);
+  });
 });
