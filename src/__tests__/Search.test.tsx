@@ -216,4 +216,62 @@ describe('Search Component', () => {
 
     expect(callCount).toBe(1);
   });
+
+  it('saves search term to localStorage after search', async () => {
+    const user = userEvent.setup();
+    const setItemSpy = vi.spyOn(localStorage, 'setItem');
+
+    const mockResponse = {
+      ok: true,
+      json: async () => ({ results: [] }),
+    };
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(mockResponse));
+
+    render(
+      <Search
+        onSearch={mockOnSearch}
+        onError={mockOnError}
+        onLoadingChange={mockOnLoadingChange}
+      />
+    );
+
+    const input = screen.getByRole('textbox');
+    const button = screen.getByRole('button');
+
+    await user.type(input, 'pokemon');
+    await user.click(button);
+
+    expect(setItemSpy).toHaveBeenCalledWith('searchItem', 'pokemon');
+  });
+
+  it('overwrites localStorage when new search is performed', async () => {
+    const user = userEvent.setup();
+    const setItemSpy = vi.spyOn(localStorage, 'setItem');
+
+    const mockResponse = {
+      ok: true,
+      json: async () => ({ results: [] }),
+    };
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(mockResponse));
+
+    render(
+      <Search
+        onSearch={mockOnSearch}
+        onError={mockOnError}
+        onLoadingChange={mockOnLoadingChange}
+      />
+    );
+
+    const input = screen.getByRole('textbox');
+    const button = screen.getByRole('button');
+
+    await user.type(input, 'first');
+    await user.click(button);
+
+    await user.clear(input);
+    await user.type(input, 'second');
+    await user.click(button);
+
+    expect(setItemSpy).toHaveBeenLastCalledWith('searchItem', 'second');
+  });
 });
