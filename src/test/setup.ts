@@ -17,5 +17,3 @@ Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
   writable: true,
 });
-
-window.fetch = vi.fn();
