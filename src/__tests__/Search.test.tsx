@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import Search from '../components/Search';
@@ -74,5 +74,72 @@ describe('Search Component', () => {
     await user.type(input, 'hello world');
 
     expect(input).toHaveValue('hello world');
+  });
+
+  it('handles HTTP error response', async () => {
+    const user = userEvent.setup();
+
+    const errorResponse = {
+      ok: false,
+      status: 500,
+      json: async () => ({}),
+    };
+
+    const fetchMock = vi.fn().mockResolvedValue(errorResponse as Response);
+    vi.stubGlobal('fetch', fetchMock);
+
+    render(
+      <Search
+        onSearch={mockOnSearch}
+        onError={mockOnError}
+        onLoadingChange={mockOnLoadingChange}
+      />
+    );
+
+    const input = screen.getByRole('textbox');
+    const button = screen.getByRole('button');
+
+    await user.type(input, 'test');
+    await user.click(button);
+
+    await waitFor(() => {
+      expect(mockOnError).toHaveBeenCalledWith(
+        expect.stringContaining('Server error: 500')
+      );
+    });
+  });
+
+  it('successfully fetches data', async () => {
+    const user = userEvent.setup();
+
+    const mockResponse = {
+      ok: true,
+      json: async () => ({
+        results: [{ title: 'Test Item', description: 'Test Description' }],
+      }),
+    };
+
+    const fetchMock = vi.fn().mockResolvedValue(mockResponse as Response);
+    vi.stubGlobal('fetch', fetchMock);
+
+    render(
+      <Search
+        onSearch={mockOnSearch}
+        onError={mockOnError}
+        onLoadingChange={mockOnLoadingChange}
+      />
+    );
+
+    const input = screen.getByRole('textbox');
+    const button = screen.getByRole('button');
+
+    await user.type(input, 'test');
+    await user.click(button);
+
+    await waitFor(() => {
+      expect(mockOnSearch).toHaveBeenCalledWith([
+        { name: 'Test Item', description: 'Test Description' },
+      ]);
+    });
   });
 });

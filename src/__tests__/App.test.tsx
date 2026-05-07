@@ -3,7 +3,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 
-// Тип для мокированного fetch
 type MockFetch = ReturnType<typeof vi.fn>;
 
 describe('App Integration Tests', () => {
