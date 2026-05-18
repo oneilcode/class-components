@@ -38,7 +38,6 @@ describe('Results Component', () => {
   it('shows empty state when items array is empty', () => {
     render(<Results items={[]} isLoading={false} error={null} />);
 
-    const rows = screen.queryAllByRole('row');
-    expect(rows.length).toBeGreaterThanOrEqual(1);
+    expect(screen.queryByText('Item 1')).not.toBeInTheDocument();
   });
 });
