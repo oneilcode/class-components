@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 
 interface SearchProps {
   onSearch: (items: Array<{ name: string; description: string }>) => void;
@@ -6,75 +6,75 @@ interface SearchProps {
   onError: (errorMessage: string) => void;
 }
 
-interface SearchState {
-  value: string;
-  lastSearchItem: string;
-}
-export default class Search extends Component<SearchProps, SearchState> {
-  state: SearchState = {
-    value: '',
-    lastSearchItem: '',
-  };
+export default function Search({
+  onSearch,
+  onLoadingChange,
+  onError,
+}: SearchProps) {
+  const [value, setValue] = useState('');
+  const [lastSearchItem, setLastSearchItem] = useState('');
+  const isInitialMount = useRef(true);
 
-  componentDidMount(): void {
-    const saved = localStorage.getItem('searchItem');
+  const getItems = useCallback(
+    async (searchValue?: string) => {
+      const trimmed = (searchValue !== undefined ? searchValue : value).trim();
 
-    this.setState({ value: saved || '' }, () => {
-      this.getItems();
-    });
-  }
+      if (trimmed === lastSearchItem) return;
+      if (trimmed === '') return;
 
-  getItems = async (): Promise<void> => {
-    const trimmed = this.state.value.trim();
+      onLoadingChange(true);
 
-    if (trimmed === this.state.lastSearchItem) return;
-    if (trimmed === '') return;
+      const url = `https://www.gov.uk/api/search.json?q=${trimmed}&count=10`;
 
-    this.props.onLoadingChange(true);
+      try {
+        const response = await fetch(url);
+        if (response.ok) {
+          localStorage.setItem('searchItem', trimmed);
+          setLastSearchItem(trimmed);
 
-    const url = `https://www.gov.uk/api/search.json?q=${trimmed}&count=10`;
-
-    try {
-      const response = await fetch(url);
-      if (response.ok) {
-        localStorage.setItem('searchItem', trimmed);
-
-        this.setState({ lastSearchItem: trimmed });
-
-        const data = await response.json();
-        const items = data.results.map(
-          (item: { title: string; description: string }) => ({
-            name: item.title,
-            description: item.description,
-          })
-        );
-        this.props.onSearch(items);
-        this.props.onLoadingChange(false);
-      } else {
-        this.props.onError(
-          `Server error: ${response.status}. Please try later.`
-        );
-        this.props.onLoadingChange(false);
+          const data = await response.json();
+          const items = data.results.map(
+            (item: { title: string; description: string }) => ({
+              name: item.title,
+              description: item.description,
+            })
+          );
+          onSearch(items);
+        } else {
+          onError(`Server error: ${response.status}. Please try later.`);
+        }
+      } catch {
+        onError('Cannot load, try later.');
+      } finally {
+        onLoadingChange(false);
       }
-    } catch {
-      this.props.onError('Cannot load, try later.');
-      this.props.onLoadingChange(false);
+    },
+    [value, lastSearchItem, onSearch, onLoadingChange, onError]
+  );
+
+  const handleSearchItem = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      const saved = localStorage.getItem('searchItem');
+      if (saved) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setValue(saved);
+        setLastSearchItem(saved);
+        getItems(saved);
+      } else {
+        getItems();
+      }
     }
-  };
+  }, [getItems]);
 
-  handleSearchItem = (e: { target: { value: string } }) => {
-    this.setState({
-      value: e.target.value,
-    });
-    this.props.onError('');
-  };
-
-  render() {
-    return (
-      <div className="search-wrapper">
-        <input value={this.state.value} onChange={this.handleSearchItem} />
-        <button onClick={() => this.getItems()}>Search</button>
-      </div>
-    );
-  }
+  return (
+    <div className="search-wrapper">
+      <input value={value} onChange={handleSearchItem} />
+      <button onClick={() => getItems()}>Search</button>
+    </div>
+  );
 }
