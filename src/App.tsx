@@ -1,53 +1,41 @@
-import { Component } from 'react';
 import Search from './components/Search';
 import Results from './components/Results';
 import './App.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import ErrorButton from './components/ErrorButton';
+import { useState } from 'react';
 
-interface ResultsProps {
-  items: Array<{
-    name: string;
-    description: string;
-  }>;
-  isLoading: boolean;
-  error: string | null;
-}
-export default class App extends Component {
-  state: ResultsProps = {
-    items: [],
-    isLoading: false,
-    error: null,
-  };
+export default function App() {
+  const [items, setItems] = useState<
+    Array<{ name: string; description: string }>
+  >([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  handleSearchResults = (
+  const handleSearchResults = (
     results: Array<{ name: string; description: string }>
   ) => {
-    this.setState({ items: results });
+    setItems(results);
+    setError(null);
   };
 
-  handleSearchError = (errorMessage: string) => {
-    this.setState({ error: errorMessage, items: [] });
+  const handleSearchError = (errorMessage: string) => {
+    setError(errorMessage);
+    setItems([]);
   };
 
-  render() {
-    return (
-      <>
-        <ErrorBoundary>
-          <Search
-            onSearch={this.handleSearchResults}
-            onError={this.handleSearchError}
-            onLoadingChange={(isLoading) => this.setState({ isLoading })}
-          />
+  return (
+    <>
+      <ErrorBoundary>
+        <Search
+          onSearch={handleSearchResults}
+          onError={handleSearchError}
+          onLoadingChange={(loading) => setIsLoading(loading)}
+        />
 
-          <Results
-            items={this.state.items}
-            isLoading={this.state.isLoading}
-            error={this.state.error}
-          />
-          <ErrorButton />
-        </ErrorBoundary>
-      </>
-    );
-  }
+        <Results items={items} isLoading={isLoading} error={error} />
+        <ErrorButton />
+      </ErrorBoundary>
+    </>
+  );
 }
