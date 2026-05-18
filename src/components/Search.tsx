@@ -54,7 +54,6 @@ export default function Search({
 
   const handleSearchItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-    onError('');
   };
 
   useEffect(() => {
@@ -64,17 +63,13 @@ export default function Search({
       if (saved) {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setValue(saved);
+        setLastSearchItem(saved);
+        getItems(saved);
       } else {
         getItems();
       }
     }
   }, [getItems]);
-
-  useEffect(() => {
-    if (!isInitialMount.current && value) {
-      getItems(value);
-    }
-  }, [value, getItems]);
 
   return (
     <div className="search-wrapper">
