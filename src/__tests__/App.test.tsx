@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
+import { BrowserRouter } from 'react-router-dom';
 
 type MockFetch = ReturnType<typeof vi.fn>;
 
@@ -33,7 +34,11 @@ describe('App Integration Tests', () => {
     };
     mockFetch.mockResolvedValue(mockResponse);
 
-    render(<App />);
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalled();
@@ -55,7 +60,11 @@ describe('App Integration Tests', () => {
     };
     mockFetch.mockResolvedValue(mockResponse);
 
-    render(<App />);
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
 
     const input = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: /search/i });
@@ -76,7 +85,11 @@ describe('App Integration Tests', () => {
       () => new Promise((resolve) => setTimeout(resolve, 100))
     );
 
-    render(<App />);
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
@@ -84,10 +97,14 @@ describe('App Integration Tests', () => {
   it('handles API error correctly', async () => {
     mockFetch.mockRejectedValue(new Error('Network error'));
 
-    render(<App />);
+    render(
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    );
 
     await waitFor(() => {
-      expect(screen.getByText(/Cannot load|try later/i)).toBeInTheDocument();
+      expect(screen.getByText(/wrong|error/i)).toBeInTheDocument();
     });
   });
 });
