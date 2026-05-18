@@ -4,6 +4,10 @@ import './App.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import ErrorButton from './components/ErrorButton';
 import { useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import AboutPage from './components/AboutPage';
+import NotFoundPage from './components/NotFoundPage';
+import Layout from './components/Layout';
 
 export default function App() {
   const [items, setItems] = useState<
@@ -27,14 +31,26 @@ export default function App() {
   return (
     <>
       <ErrorBoundary>
-        <Search
-          onSearch={handleSearchResults}
-          onError={handleSearchError}
-          onLoadingChange={(loading) => setIsLoading(loading)}
-        />
-
-        <Results items={items} isLoading={isLoading} error={error} />
-        <ErrorButton />
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route
+              index
+              element={
+                <div>
+                  <Search
+                    onSearch={handleSearchResults}
+                    onError={handleSearchError}
+                    onLoadingChange={setIsLoading}
+                  />
+                  <Results items={items} isLoading={isLoading} error={error} />
+                  <ErrorButton />
+                </div>
+              }
+            />
+            <Route path="about" element={<AboutPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
       </ErrorBoundary>
     </>
   );
