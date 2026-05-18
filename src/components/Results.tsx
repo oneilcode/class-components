@@ -20,6 +20,10 @@ export default function Results({ items, isLoading, error }: ResultsProps) {
     );
   }
 
+  if (items.length === 0) {
+    return <div>No results found</div>;
+  }
+
   return (
     <div className="results-wrapper">
       <h1>Search results</h1>
