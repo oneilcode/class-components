@@ -1,20 +1,18 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
-export default class ErrorButton extends Component {
-  state = { shouldCrash: false };
+export default function ErrorButton() {
+  const [shouldCrash, setShouldCrash] = useState(false);
 
-  handleClick = () => {
-    this.setState({ shouldCrash: true });
+  const handleClick = () => {
+    setShouldCrash(true);
   };
 
-  render() {
-    if (this.state.shouldCrash) {
-      throw new Error('Test crash from ErrorButton');
-    }
-    return (
-      <button className="error-btn" onClick={this.handleClick}>
-        Test Error
-      </button>
-    );
+  if (shouldCrash) {
+    throw new Error('Test crash from ErrorButton');
   }
+  return (
+    <button className="error-btn" onClick={handleClick}>
+      Test Error
+    </button>
+  );
 }
