@@ -84,3 +84,58 @@
 .error-btn:hover {
   background-color: #dc2626;
 }
+
+/* About Page  */
+.about-page {
+  padding: 0 20px;
+}
+
+.about-page h1 {
+  margin-bottom: 20px;
+}
+
+.about-page p {
+  font-size: 16px;
+  color: #334155;
+  margin-bottom: 16px;
+}
+
+.about-page a {
+  color: #3b82f6;
+  text-decoration: none;
+  margin-top: 8px;
+}
+
+.about-page a:hover {
+  text-decoration: underline;
+}
+
+.about-page .author-link {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Layout Navigation */
+.layout-nav {
+  border-bottom: 1px solid #e2e8f0;
+  padding: 16px 24px;
+}
+
+.layout-nav nav {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+}
+
+.layout-nav a {
+  color: #334155;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.layout-nav a:hover {
+  color: #3b82f6;
+}
