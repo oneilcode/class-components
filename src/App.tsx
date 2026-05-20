@@ -8,8 +8,10 @@ import { Route, Routes } from 'react-router-dom';
 import AboutPage from './components/AboutPage';
 import NotFoundPage from './components/NotFoundPage';
 import Layout from './components/Layout';
+import { useTheme } from './context/hooks/useTheme';
 
 export default function App() {
+  const { isDark } = useTheme();
   const [items, setItems] = useState<
     Array<{ name: string; description: string }>
   >([]);
@@ -29,7 +31,7 @@ export default function App() {
   };
 
   return (
-    <>
+    <div className={`app ${isDark ? 'dark' : 'light'}`}>
       <ErrorBoundary>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -52,6 +54,6 @@ export default function App() {
           </Route>
         </Routes>
       </ErrorBoundary>
-    </>
+    </div>
   );
 }

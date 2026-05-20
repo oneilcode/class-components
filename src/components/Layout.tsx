@@ -1,4 +1,5 @@
 import { Link, Outlet } from 'react-router-dom';
+import ThemeButton from './ThemeButton';
 
 export default function Layout() {
   return (
@@ -6,6 +7,7 @@ export default function Layout() {
       <nav>
         <Link to="/">Home</Link>
         <Link to="/about">About</Link>
+        <ThemeButton />
       </nav>
       <main className="layout-main">
         <Outlet />
