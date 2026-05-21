@@ -1,5 +1,6 @@
 import { Link, Outlet } from 'react-router-dom';
 import ThemeButton from './ThemeButton';
+import Flyout from './Flyout';
 
 export default function Layout() {
   return (
@@ -12,6 +13,7 @@ export default function Layout() {
       <main className="layout-main">
         <Outlet />
       </main>
+      <Flyout />
     </div>
   );
 }

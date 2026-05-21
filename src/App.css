@@ -171,3 +171,45 @@
 .theme-btn {
   cursor: pointer;
 }
+
+/* Flyout */
+.flyout {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #fff;
+  z-index: 10;
+  border-top: 1px black solid;
+}
+
+.app.dark .flyout {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  border-top: 1px #e0e0e0 solid;
+}
+
+.flyout-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.flyout button {
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+  color: white;
+}
+
+.flyout button:first-of-type {
+  background-color: rgb(77, 77, 77);
+}
+
+.flyout button:last-of-type {
+  background-color: #4caf50;
+}
