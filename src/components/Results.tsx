@@ -1,8 +1,8 @@
+import type { IItem } from '../store/use-items-store';
+import Item from './Item';
+
 interface ResultsProps {
-  items: Array<{
-    name: string;
-    description: string;
-  }>;
+  items: IItem[];
   isLoading: boolean;
   error: string | null;
 }
@@ -30,16 +30,14 @@ export default function Results({ items, isLoading, error }: ResultsProps) {
       <table className="results-table">
         <thead>
           <tr>
+            <th>Selected</th>
             <th>Item Name</th>
             <th>Item Description</th>
           </tr>
         </thead>
         <tbody>
           {items.map((item) => (
-            <tr key={item.name}>
-              <td>{item.name}</td>
-              <td>{item.description}</td>
-            </tr>
+            <Item key={item.name} item={item} />
           ))}
         </tbody>
       </table>

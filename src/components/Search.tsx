@@ -1,7 +1,8 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
+import type { IItem } from '../store/use-items-store';
 
 interface SearchProps {
-  onSearch: (items: Array<{ name: string; description: string }>) => void;
+  onSearch: (items: IItem[]) => void;
   onLoadingChange: (isLoading: boolean) => void;
   onError: (errorMessage: string) => void;
 }
@@ -35,6 +36,7 @@ export default function Search({
           const data = await response.json();
           const items = data.results.map(
             (item: { title: string; description: string }) => ({
+              id: item.title,
               name: item.title,
               description: item.description,
             })
