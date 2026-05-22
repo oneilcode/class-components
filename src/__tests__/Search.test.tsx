@@ -115,7 +115,13 @@ describe('Search Component', () => {
     const mockResponse = {
       ok: true,
       json: async () => ({
-        results: [{ title: 'Test Item', description: 'Test Description' }],
+        results: [
+          {
+            title: 'Test Item',
+            description: 'Test Description',
+            link: '/test-item',
+          },
+        ],
       }),
     };
 
@@ -138,7 +144,12 @@ describe('Search Component', () => {
 
     await waitFor(() => {
       expect(mockOnSearch).toHaveBeenCalledWith([
-        { name: 'Test Item', description: 'Test Description' },
+        {
+          id: 'Test Item',
+          name: 'Test Item',
+          description: 'Test Description',
+          detailsUrl: 'https://www.gov.uk/test-item',
+        },
       ]);
     });
   });

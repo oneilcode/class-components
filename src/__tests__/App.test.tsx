@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from '../context/ThemeContext';
 
 type MockFetch = ReturnType<typeof vi.fn>;
 
@@ -36,7 +37,9 @@ describe('App Integration Tests', () => {
 
     render(
       <BrowserRouter>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </BrowserRouter>
     );
 
@@ -62,7 +65,9 @@ describe('App Integration Tests', () => {
 
     render(
       <BrowserRouter>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </BrowserRouter>
     );
 
@@ -87,7 +92,9 @@ describe('App Integration Tests', () => {
 
     render(
       <BrowserRouter>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </BrowserRouter>
     );
 
@@ -99,7 +106,9 @@ describe('App Integration Tests', () => {
 
     render(
       <BrowserRouter>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </BrowserRouter>
     );
 
