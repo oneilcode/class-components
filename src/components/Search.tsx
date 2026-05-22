@@ -34,11 +34,14 @@ export default function Search({
           setLastSearchItem(trimmed);
 
           const data = await response.json();
+          console.log(data);
+
           const items = data.results.map(
-            (item: { title: string; description: string }) => ({
+            (item: { title: string; description: string; link: string }) => ({
               id: item.title,
               name: item.title,
               description: item.description,
+              detailsUrl: `https://www.gov.uk${item.link}`,
             })
           );
           onSearch(items);
