@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { ThemeContext } from './hooks/useTheme';
 
 interface Themeproviderprops {
@@ -6,7 +6,14 @@ interface Themeproviderprops {
 }
 
 export const ThemeProvider = ({ children }: Themeproviderprops) => {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(() => {
+    const saved = localStorage.getItem('theme');
+    return saved === 'dark';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  }, [isDark]);
 
   const toggleTheme = () => {
     setIsDark((prev) => !prev);
