@@ -5,17 +5,15 @@ import { useSelectedItemsStore } from '../store/use-items-store';
 import type { IItem } from '../store/use-items-store';
 
 const mockItem1: IItem = {
-  id: 'test-1',
   name: 'Test Item 1',
   description: 'Test Description 1',
-  detailsUrl: 'https://test.com/item1',
+  url: 'https://test.com/item1',
 };
 
 const mockItem2: IItem = {
-  id: 'test-2',
   name: 'Test Item 2',
   description: 'Test Description 2',
-  detailsUrl: 'https://test.com/item2',
+  url: 'https://test.com/item2',
 };
 
 describe('Flyout Component', () => {

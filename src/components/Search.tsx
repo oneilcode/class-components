@@ -50,7 +50,7 @@ export default function Search({
             (item: { name: string; url: string }) => ({
               name: item.name,
               description: `Pokémon - ${item.name}`,
-              detailsUrl: item.url,
+              url: item.url,
             })
           );
           onSearch(items);

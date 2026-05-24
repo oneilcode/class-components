@@ -4,10 +4,26 @@ export default function Flyout() {
   const { selectedItems, unselectAll } = useSelectedItemsStore();
 
   const convertToCSV = (data: IItem[]) => {
-    const headers = Object.keys(data[0]);
+    if (data.length === 0) return '';
+    const headers: (keyof IItem)[] = ['name', 'description', 'url'];
 
     const rows = data.map((obj) =>
-      headers.map((fieldName) => JSON.stringify(obj[fieldName] || '')).join(',')
+      headers
+        .map((fieldName) => {
+          const value = obj[fieldName];
+          const stringValue = value !== undefined ? String(value) : '';
+
+          if (
+            stringValue.includes(',') ||
+            stringValue.includes('"') ||
+            stringValue.includes('\n')
+          ) {
+            return `"${stringValue.replace(/"/g, '""')}"`;
+          }
+
+          return stringValue;
+        })
+        .join(',')
     );
 
     return [headers.join(','), ...rows].join('\n');

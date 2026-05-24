@@ -9,18 +9,15 @@ import AboutPage from './components/AboutPage';
 import NotFoundPage from './components/NotFoundPage';
 import Layout from './components/Layout';
 import { useTheme } from './context/hooks/useTheme';
+import type { IItem } from './store/use-items-store';
 
 export default function App() {
   const { isDark } = useTheme();
-  const [items, setItems] = useState<
-    Array<{ name: string; description: string }>
-  >([]);
+  const [items, setItems] = useState<IItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSearchResults = (
-    results: Array<{ name: string; description: string }>
-  ) => {
+  const handleSearchResults = (results: IItem[]) => {
     setItems(results);
     setError(null);
   };

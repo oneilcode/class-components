@@ -5,10 +5,9 @@ import { useSelectedItemsStore } from '../store/use-items-store';
 import type { IItem } from '../store/use-items-store';
 
 const mockItem: IItem = {
-  id: 'test-1',
   name: 'Test Item',
   description: 'Test Description',
-  detailsUrl: 'https://test.com/item',
+  url: 'https://test.com/item',
 };
 
 describe('Item Component', () => {
