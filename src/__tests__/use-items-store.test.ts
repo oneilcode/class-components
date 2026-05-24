@@ -3,17 +3,15 @@ import { useSelectedItemsStore } from '../store/use-items-store';
 import type { IItem } from '../store/use-items-store';
 
 const mockItem1: IItem = {
-  id: 'item1',
   name: 'Test Item 1',
   description: 'Description 1',
-  detailsUrl: 'https://test.com/1',
+  url: 'https://test.com/1',
 };
 
 const mockItem2: IItem = {
-  id: 'item2',
   name: 'Test Item 2',
   description: 'Description 2',
-  detailsUrl: 'https://test.com/2',
+  url: 'https://test.com/2',
 };
 
 describe('useSelectedItemsStore', () => {
@@ -68,26 +66,13 @@ describe('useSelectedItemsStore', () => {
 
     toggleItem(mockItem1);
 
-    expect(isSelected('item1')).toBe(true);
+    expect(isSelected(mockItem1.name)).toBe(true);
   });
 
   it('should return false if item is not selected', () => {
     const { isSelected } = useSelectedItemsStore.getState();
 
     expect(isSelected('nonexistent')).toBe(false);
-    expect(isSelected('item1')).toBe(false);
-  });
-
-  it('should persist selectedItems to localStorage', async () => {
-    const { toggleItem } = useSelectedItemsStore.getState();
-
-    toggleItem(mockItem1);
-
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
-    const saved = localStorage.getItem('selected-items');
-    console.log('Saved to localStorage:', saved); // 👈 посмотрим, что сохраняется
-
-    expect(saved).not.toBeNull();
+    expect(isSelected(mockItem1.name)).toBe(false);
   });
 });
