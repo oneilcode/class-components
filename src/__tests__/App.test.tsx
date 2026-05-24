@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from '../context/ThemeContext';
 
 type MockFetch = ReturnType<typeof vi.fn>;
 
@@ -20,15 +21,15 @@ describe('App Integration Tests', () => {
     vi.unstubAllGlobals();
   });
 
-  it('fetches data on initial load with saved search term', async () => {
-    localStorage.getItem = vi.fn().mockReturnValue('test query');
+  it('handles search correctly', async () => {
+    const user = userEvent.setup();
 
     const mockResponse = {
       ok: true,
       json: async () => ({
         results: [
-          { title: 'Test Result 1', description: 'Description 1' },
-          { title: 'Test Result 2', description: 'Description 2' },
+          { name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/25/' },
+          { name: 'raichu', url: 'https://pokeapi.co/api/v2/pokemon/26/' },
         ],
       }),
     };
@@ -36,33 +37,9 @@ describe('App Integration Tests', () => {
 
     render(
       <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    );
-
-    await waitFor(() => {
-      expect(mockFetch).toHaveBeenCalled();
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText('Test Result 1')).toBeInTheDocument();
-    });
-  });
-
-  it('handles search correctly', async () => {
-    const user = userEvent.setup();
-
-    const mockResponse = {
-      ok: true,
-      json: async () => ({
-        results: [{ title: 'Search Result', description: 'Found!' }],
-      }),
-    };
-    mockFetch.mockResolvedValue(mockResponse);
-
-    render(
-      <BrowserRouter>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </BrowserRouter>
     );
 
@@ -70,13 +47,17 @@ describe('App Integration Tests', () => {
     const button = screen.getByRole('button', { name: /search/i });
 
     await user.clear(input);
-    await user.type(input, 'pokemon');
+    await user.type(input, 'pikachu');
     await user.click(button);
 
     await waitFor(() => {
       expect(mockFetch).toHaveBeenCalledWith(
-        expect.stringContaining('q=pokemon')
+        'https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0'
       );
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText('pikachu')).toBeInTheDocument();
     });
   });
 
@@ -87,11 +68,13 @@ describe('App Integration Tests', () => {
 
     render(
       <BrowserRouter>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </BrowserRouter>
     );
 
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    expect(screen.getByText(/loading/i)).toBeInTheDocument();
   });
 
   it('handles API error correctly', async () => {
@@ -99,12 +82,14 @@ describe('App Integration Tests', () => {
 
     render(
       <BrowserRouter>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </BrowserRouter>
     );
 
     await waitFor(() => {
-      expect(screen.getByText(/wrong|error/i)).toBeInTheDocument();
+      expect(screen.getByText(/cannot load, try later/i)).toBeInTheDocument();
     });
   });
 });

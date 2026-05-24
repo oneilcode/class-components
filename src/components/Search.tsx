@@ -1,7 +1,9 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import type { IItem } from '../store/use-items-store';
 
 interface SearchProps {
-  onSearch: (items: Array<{ name: string; description: string }>) => void;
+  onSearch: (items: IItem[]) => void;
   onLoadingChange: (isLoading: boolean) => void;
   onError: (errorMessage: string) => void;
 }
@@ -11,9 +13,10 @@ export default function Search({
   onLoadingChange,
   onError,
 }: SearchProps) {
-  const [value, setValue] = useState('');
   const [lastSearchItem, setLastSearchItem] = useState('');
   const isInitialMount = useRef(true);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [value, setValue] = useState(searchParams.get('q') || '');
 
   const getItems = useCallback(
     async (searchValue?: string) => {
@@ -22,9 +25,13 @@ export default function Search({
       if (trimmed === lastSearchItem) return;
       if (trimmed === '') return;
 
+      if (trimmed) {
+        setSearchParams({ q: trimmed, page: '1' });
+      }
+
       onLoadingChange(true);
 
-      const url = `https://www.gov.uk/api/search.json?q=${trimmed}&count=10`;
+      const url = `https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0`;
 
       try {
         const response = await fetch(url);
@@ -33,10 +40,17 @@ export default function Search({
           setLastSearchItem(trimmed);
 
           const data = await response.json();
-          const items = data.results.map(
-            (item: { title: string; description: string }) => ({
-              name: item.title,
-              description: item.description,
+
+          const filteredResults = data.results.filter(
+            (item: { name: string }) =>
+              item.name.includes(trimmed.toLowerCase())
+          );
+
+          const items = filteredResults.map(
+            (item: { name: string; url: string }) => ({
+              name: item.name,
+              description: `Pokémon - ${item.name}`,
+              url: item.url,
             })
           );
           onSearch(items);
@@ -49,7 +63,7 @@ export default function Search({
         onLoadingChange(false);
       }
     },
-    [value, lastSearchItem, onSearch, onLoadingChange, onError]
+    [value, lastSearchItem, onSearch, onLoadingChange, onError, setSearchParams]
   );
 
   const handleSearchItem = (e: React.ChangeEvent<HTMLInputElement>) => {
