@@ -34,14 +34,11 @@ export default function Search({
           setLastSearchItem(trimmed);
 
           const data = await response.json();
-          console.log(data);
 
           const filteredResults = data.results.filter(
             (item: { name: string }) =>
               item.name.includes(trimmed.toLowerCase())
           );
-
-          console.log(filteredResults);
 
           const items = filteredResults.map(
             (item: { name: string; url: string }) => ({
