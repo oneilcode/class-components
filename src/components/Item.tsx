@@ -17,7 +17,7 @@ export default function Item({ item }: ItemProps) {
       <td>
         <input
           type="checkbox"
-          checked={isSelected(item.id)}
+          checked={isSelected(item.name)}
           onClick={clickOnCheckbox}
         />
       </td>

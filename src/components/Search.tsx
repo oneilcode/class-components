@@ -25,7 +25,7 @@ export default function Search({
 
       onLoadingChange(true);
 
-      const url = `https://www.gov.uk/api/search.json?q=${trimmed}&count=10`;
+      const url = `https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0`;
 
       try {
         const response = await fetch(url);
@@ -37,11 +37,10 @@ export default function Search({
           console.log(data);
 
           const items = data.results.map(
-            (item: { title: string; description: string; link: string }) => ({
-              id: item.title,
-              name: item.title,
-              description: item.description,
-              detailsUrl: `https://www.gov.uk${item.link}`,
+            (item: { name: string; url: string }) => ({
+              name: item.name,
+              description: `Pokémon - ${item.name}`,
+              detailsUrl: item.url,
             })
           );
           onSearch(items);

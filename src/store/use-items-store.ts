@@ -2,10 +2,9 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export interface IItem {
-  id: string;
   name: string;
   description: string;
-  detailsUrl: string;
+  url: string;
 }
 
 interface ISelectedItemsStore {
@@ -23,13 +22,13 @@ export const useSelectedItemsStore = create<ISelectedItemsStore>()(
       toggleItem: (item) =>
         set((state) => {
           const isAlreadySelected = state.selectedItems.some(
-            (selected) => selected.id === item.id
+            (selected) => selected.name === item.name
           );
 
           if (isAlreadySelected) {
             return {
               selectedItems: state.selectedItems.filter(
-                (selected) => selected.id !== item.id
+                (selected) => selected.name !== item.name
               ),
             };
           } else {
@@ -41,9 +40,9 @@ export const useSelectedItemsStore = create<ISelectedItemsStore>()(
 
       unselectAll: () => set({ selectedItems: [] }),
 
-      isSelected: (id) => {
+      isSelected: (name) => {
         const state = get();
-        return state.selectedItems.some((item) => item.id === id);
+        return state.selectedItems.some((item) => item.name === name);
       },
     }),
     {
