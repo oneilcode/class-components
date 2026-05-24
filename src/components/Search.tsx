@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import type { IItem } from '../store/use-items-store';
 
 interface SearchProps {
@@ -12,9 +13,10 @@ export default function Search({
   onLoadingChange,
   onError,
 }: SearchProps) {
-  const [value, setValue] = useState('');
   const [lastSearchItem, setLastSearchItem] = useState('');
   const isInitialMount = useRef(true);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [value, setValue] = useState(searchParams.get('q') || '');
 
   const getItems = useCallback(
     async (searchValue?: string) => {
@@ -22,6 +24,10 @@ export default function Search({
 
       if (trimmed === lastSearchItem) return;
       if (trimmed === '') return;
+
+      if (trimmed) {
+        setSearchParams({ q: trimmed, page: '1' });
+      }
 
       onLoadingChange(true);
 
@@ -57,7 +63,7 @@ export default function Search({
         onLoadingChange(false);
       }
     },
-    [value, lastSearchItem, onSearch, onLoadingChange, onError]
+    [value, lastSearchItem, onSearch, onLoadingChange, onError, setSearchParams]
   );
 
   const handleSearchItem = (e: React.ChangeEvent<HTMLInputElement>) => {

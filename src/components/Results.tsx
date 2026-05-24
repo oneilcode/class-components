@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo } from 'react';
 import type { IItem } from '../store/use-items-store';
 import Item from './Item';
 import Pagination from './Pagination';
+import { useSearchParams } from 'react-router-dom';
 
 interface ResultsProps {
   items: IItem[];
@@ -15,7 +16,8 @@ const getTotalPageCount = (rowCount: number): number =>
   Math.ceil(rowCount / ROWS_PER_PAGE);
 
 export default function Results({ items, isLoading, error }: ResultsProps) {
-  const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = Number(searchParams.get('page')) || 1;
 
   const currentPageItems = useMemo(() => {
     const startIndex = (page - 1) * ROWS_PER_PAGE;
@@ -23,28 +25,17 @@ export default function Results({ items, isLoading, error }: ResultsProps) {
     return items.slice(startIndex, endIndex);
   }, [items, page]);
 
-  const handleNextPageClick = useCallback(() => {
-    const current = page;
-    const next = current + 1;
-    const total = items ? getTotalPageCount(items.length) : current;
+  const handleNextPageClick = () => {
+    const next = page + 1;
+    const currentQuery = searchParams.get('q') || '';
+    setSearchParams({ q: currentQuery, page: next.toString() });
+  };
 
-    setPage(next <= total ? next : current);
-  }, [page, items]);
-
-  const handlePrevPageClick = useCallback(() => {
-    const current = page;
-    const prev = current - 1;
-
-    setPage(prev > 0 ? prev : current);
-  }, [page]);
-
-  const prevItemsLength = useRef(items.length);
-  useEffect(() => {
-    if (prevItemsLength.current !== items.length) {
-      setPage(1);
-      prevItemsLength.current = items.length;
-    }
-  }, [items.length]);
+  const handlePrevPageClick = () => {
+    const prev = page - 1;
+    const currentQuery = searchParams.get('q') || '';
+    setSearchParams({ q: currentQuery, page: prev.toString() });
+  };
 
   if (isLoading) {
     return <div className="results-wrapper">Loading...</div>;
