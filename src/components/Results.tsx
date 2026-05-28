@@ -38,7 +38,7 @@ export default function Results({ items, isLoading, error }: ResultsProps) {
 
   if (isLoading) return <div>Loading...</div>;
 
-  if (error) return <div>Error: {error}. Try again later!</div>;
+  if (error) return <div>Something went wrong. Please try again!</div>;
 
   if (items.length === 0) return <div>No results found</div>;
 

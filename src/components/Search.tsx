@@ -2,25 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import Results from './Results';
-
-const POKEMON_URL = 'https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0';
-
-async function fetchPokemons(searchTerm: string) {
-  if (!searchTerm) return [];
-
-  const response = await fetch(POKEMON_URL);
-  const data = await response.json();
-
-  const filteredResults = data.results.filter((item: { name: string }) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  return filteredResults.map((item: { name: string; url: string }) => ({
-    name: item.name,
-    description: `Pokemon - ${item.name}`,
-    url: item.url,
-  }));
-}
+import fetchPokemons from '../api/pokemonApi';
 
 export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
