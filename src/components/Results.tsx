@@ -14,7 +14,7 @@ interface ResultsProps {
 const getTotalPageCount = (rowCount: number): number =>
   Math.ceil(rowCount / ROWS_PER_PAGE);
 
-export default function Results({ items }: ResultsProps) {
+export default function Results({ items, isLoading, error }: ResultsProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get('page')) || 1;
 
@@ -36,9 +36,11 @@ export default function Results({ items }: ResultsProps) {
     setSearchParams({ q: currentQuery, page: prev.toString() });
   };
 
-  if (items.length === 0) {
-    return <div>No results found</div>;
-  }
+  if (isLoading) return <div>Loading...</div>;
+
+  if (error) return <div>Error: {error}. Try again later!</div>;
+
+  if (items.length === 0) return <div>No results found</div>;
 
   return (
     <div className="results-wrapper">

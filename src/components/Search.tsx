@@ -67,9 +67,6 @@ export default function Search() {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error...</div>;
-
   return (
     <>
       <div className="search-wrapper">
