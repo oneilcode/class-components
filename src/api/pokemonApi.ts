@@ -33,7 +33,18 @@ export default async function fetchPokemons(searchTerm: string) {
       description: `Pokemon - ${item.name}`,
       url: item.url,
     }));
-  } catch {
+  } catch (err) {
+    if (err instanceof Error) {
+      if (
+        err.message.includes('Failed to fetch') ||
+        err.message.includes('fetch')
+      ) {
+        throw new Error(
+          'Network error: Unable to reach Pokemon API. Please check your connection.'
+        );
+      }
+      throw err;
+    }
     throw new Error('Unknown error occurred. Please try again.');
   }
 }
