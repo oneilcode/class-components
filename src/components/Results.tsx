@@ -4,13 +4,12 @@ import Item from './Item';
 import Pagination from './Pagination';
 import { useSearchParams } from 'react-router-dom';
 
+const ROWS_PER_PAGE = 10;
 interface ResultsProps {
   items: IItem[];
   isLoading: boolean;
   error: string | null;
 }
-
-const ROWS_PER_PAGE = 10;
 
 const getTotalPageCount = (rowCount: number): number =>
   Math.ceil(rowCount / ROWS_PER_PAGE);
@@ -37,21 +36,11 @@ export default function Results({ items, isLoading, error }: ResultsProps) {
     setSearchParams({ q: currentQuery, page: prev.toString() });
   };
 
-  if (isLoading) {
-    return <div className="results-wrapper">Loading...</div>;
-  }
+  if (isLoading) return <div>Loading...</div>;
 
-  if (error) {
-    return (
-      <div className="results-wrapper">
-        <div className="error-message">{error}</div>
-      </div>
-    );
-  }
+  if (error) return <div>{error}</div>;
 
-  if (items.length === 0) {
-    return <div>No results found</div>;
-  }
+  if (items.length === 0) return <div>No results found</div>;
 
   return (
     <div className="results-wrapper">
