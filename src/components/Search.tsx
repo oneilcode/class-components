@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Results from './Results';
 import fetchPokemons from '../api/pokemonApi';
+import RefreshButton from './RefreshButton';
 
 export default function Search() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -14,6 +15,8 @@ export default function Search() {
     queryFn: () => fetchPokemons(searchTerm),
     enabled: searchTerm.length > 0,
   });
+
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const urlParam = searchParams.get('q');
@@ -49,11 +52,16 @@ export default function Search() {
     }
   };
 
+  const handleRefresh = () => {
+    queryClient.invalidateQueries({ queryKey: ['pokemons'] });
+  };
+
   return (
     <>
       <div className="search-wrapper">
         <input value={value} onChange={handleInputChange} />
         <button onClick={handleSearchClick}>Search</button>
+        <RefreshButton clickRefresh={handleRefresh} />
       </div>
       <Results
         items={data || []}
