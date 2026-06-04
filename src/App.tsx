@@ -1,10 +1,12 @@
 import './App.css';
+import OpenModalBtn from './components/OpenModalBtn';
 
 function App() {
   return (
-    <>
-      <p>123</p>
-    </>
+    <div className="btn-container">
+      <OpenModalBtn title="Open uncontrolled form" />
+      <OpenModalBtn title="Open React Hook Form" />
+    </div>
   );
 }
 
