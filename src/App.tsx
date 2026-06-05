@@ -2,9 +2,17 @@ import { useState } from 'react';
 import './App.css';
 import OpenModalBtn from './components/OpenModalBtn';
 import Modal from './components/Modal';
+import UncontrolledForm, {
+  type IFormData,
+} from './components/UncontrolledForm';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleFormSubmit = (data: IFormData) => {
+    console.log(data);
+  };
+
   return (
     <>
       <div className="btn-container">
@@ -19,7 +27,10 @@ function App() {
       </div>
       <div id="modal-container">
         <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
-          <p>Modal</p>
+          <UncontrolledForm
+            onSubmit={handleFormSubmit}
+            onClose={() => setIsOpen(false)}
+          />
         </Modal>
       </div>
     </>
