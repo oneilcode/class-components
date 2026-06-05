@@ -51,7 +51,7 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
 
       <div className="form-input">
         <input type="checkbox" name="terms" id="terms" />
-        <label htmlFor="terms">Accept Terms and Conditions</label>
+        <label htmlFor="terms">Accept terms and conditions</label>
       </div>
 
       <button type="submit">Submit</button>
