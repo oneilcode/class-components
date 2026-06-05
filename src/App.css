@@ -11,6 +11,11 @@
   z-index: 999;
 }
 
+.modal-title {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;

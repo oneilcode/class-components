@@ -4,12 +4,14 @@ import { createPortal } from 'react-dom';
 interface IModalProps {
   isOpen: boolean;
   onClose: () => void;
+  modalTitle: string;
 }
 
 export default function Modal({
   isOpen,
   onClose,
   children,
+  modalTitle,
 }: PropsWithChildren<IModalProps>) {
   const modalContainer = document.getElementById('modal-container');
 
@@ -32,6 +34,7 @@ export default function Modal({
         <button className="modal-close-btn" onClick={onClose}>
           x
         </button>
+        <h1 className="modal-title">{modalTitle}</h1>
         {children}
       </div>
     </div>,

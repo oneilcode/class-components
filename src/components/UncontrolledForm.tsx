@@ -6,7 +6,7 @@ export interface IFormData {
   terms: boolean;
 }
 
-interface IFormProps {
+export interface IFormProps {
   onSubmit: (data: IFormData) => void;
   onClose: () => void;
 }
@@ -20,9 +20,9 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
       gender: formData.get('gender') === 'man' ? 'Man' : 'Woman',
       terms: formData.get('terms') === 'on',
     };
+
     onSubmit(data);
     onClose();
-    console.log(data);
   };
 
   return (
@@ -34,7 +34,7 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
 
       <div className="form-input">
         <label htmlFor="age">Age</label>
-        <input type="number" name="age" id="age" />
+        <input type="text" name="age" id="age" />
       </div>
 
       <div className="form-input">
