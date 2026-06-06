@@ -5,7 +5,7 @@ export interface IFormData {
   gender: 'Man' | 'Woman';
   terms: boolean;
   password: string;
-  confirm: string;
+  confirmPassword: string;
   file: string;
 }
 
@@ -23,7 +23,7 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
       gender: formData.get('gender') === 'man' ? 'Man' : 'Woman',
       terms: formData.get('terms') === 'on',
       password: formData.get('password') as string,
-      confirm: formData.get('confirm') as string,
+      confirmPassword: formData.get('confirmPassword') as string,
       file: formData.get('file') as string,
     };
 
@@ -61,8 +61,8 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
-        <label htmlFor="confirm">Сonfirm password</label>
-        <input type="password" id="confirm" name="confirm" />
+        <label htmlFor="confirmPassword">Сonfirm password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" />
       </div>
 
       <div className="form-input">
