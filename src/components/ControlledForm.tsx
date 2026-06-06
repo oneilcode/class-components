@@ -2,6 +2,8 @@ import { useForm } from 'react-hook-form';
 import type { IFormData, IFormProps } from './UncontrolledForm';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { convertToBase64, validateFile } from '../utils/fileValidation';
 
 const formSchema = z
   .object({
@@ -20,7 +22,6 @@ const formSchema = z
       .regex(/[a-z]/, 'Must contain lowercase')
       .regex(/[!@#$%^&*]/, 'Must contain special character'),
     confirmPassword: z.string(),
-    // file: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     error: 'The passwords dont match',
@@ -32,6 +33,9 @@ const formSchema = z
   });
 
 export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
+  const [imageBase64, setImageBase64] = useState<string>('');
+  const [fileError, setFileError] = useState<string>('');
+
   const {
     register,
     handleSubmit,
@@ -47,13 +51,37 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
       terms: false,
       password: '',
       confirmPassword: '',
-      // file: ''
     },
   });
 
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (!file) {
+      setImageBase64('');
+      setFileError('');
+      return;
+    }
+
+    const error = validateFile(file);
+    if (error) {
+      setFileError(error);
+      setImageBase64('');
+      return;
+    }
+
+    const base64 = await convertToBase64(file);
+    setImageBase64(base64);
+    setFileError('');
+  };
+
   const onSubmitHandler = (data: IFormData) => {
-    console.log(data);
-    onSubmit(data);
+    const formDataWithImage = {
+      ...data,
+      file: imageBase64,
+    };
+    console.log(formDataWithImage);
+    onSubmit(formDataWithImage);
     onClose();
   };
 
@@ -129,10 +157,16 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
         )}
       </div>
 
-      {/* <div className="form-input">
+      <div className="form-input">
         <label htmlFor="file">Upload image</label>
-        <input type="file" id="file" />
-      </div> */}
+        <input
+          type="file"
+          id="file"
+          accept="image/*"
+          onChange={handleFileChange}
+        />
+        {fileError && <span style={{ color: 'red' }}>{fileError}</span>}
+      </div>
 
       <div className="form-input">
         <input type="checkbox" id="terms" {...register('terms')} />
@@ -142,7 +176,7 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
         )}
       </div>
 
-      <button type="submit" disabled={!isValid}>
+      <button type="submit" disabled={!isValid || !!fileError}>
         Submit
       </button>
     </form>
