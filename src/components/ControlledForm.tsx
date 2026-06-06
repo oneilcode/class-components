@@ -46,6 +46,33 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          {...register('password', { required: true })}
+        />
+      </div>
+
+      <div className="form-input">
+        <label htmlFor="confirm">Сonfirm password</label>
+        <input
+          type="password"
+          id="confirm"
+          {...register('confirm', { required: true })}
+        />
+      </div>
+
+      <div className="form-input">
+        <label htmlFor="file">Upload image</label>
+        <input
+          type="file"
+          id="file"
+          {...register('file', { required: false })}
+        />
+      </div>
+
+      <div className="form-input">
         <input type="checkbox" id="terms" {...register('terms')} />
         <label htmlFor="terms">Accept terms and conditions</label>
       </div>

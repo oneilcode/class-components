@@ -4,6 +4,9 @@ export interface IFormData {
   email: string;
   gender: 'Man' | 'Woman';
   terms: boolean;
+  password: string;
+  confirm: string;
+  file: string;
 }
 
 export interface IFormProps {
@@ -19,6 +22,9 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
       email: formData.get('email') as string,
       gender: formData.get('gender') === 'man' ? 'Man' : 'Woman',
       terms: formData.get('terms') === 'on',
+      password: formData.get('password') as string,
+      confirm: formData.get('confirm') as string,
+      file: formData.get('file') as string,
     };
 
     onSubmit(data);
@@ -47,6 +53,21 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
         <label htmlFor="man">Man</label>
         <input type="radio" name="gender" id="woman" value="woman" />
         <label htmlFor="woman">Woman</label>
+      </div>
+
+      <div className="form-input">
+        <label htmlFor="password">Password</label>
+        <input type="password" id="password" name="password" />
+      </div>
+
+      <div className="form-input">
+        <label htmlFor="confirm">Сonfirm password</label>
+        <input type="password" id="confirm" name="confirm" />
+      </div>
+
+      <div className="form-input">
+        <label htmlFor="file">Upload image</label>
+        <input type="file" id="file" name="file" />
       </div>
 
       <div className="form-input">
