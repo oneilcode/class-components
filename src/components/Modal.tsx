@@ -1,4 +1,9 @@
-import { useEffect, type PropsWithChildren } from 'react';
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  type PropsWithChildren,
+} from 'react';
 import { createPortal } from 'react-dom';
 
 interface IModalProps {
@@ -14,6 +19,7 @@ export default function Modal({
   modalTitle,
 }: PropsWithChildren<IModalProps>) {
   const modalContainer = document.getElementById('modal-container');
+  const firstFocusElementRef = useRef(null);
 
   useEffect(() => {
     function onEscClose(e: KeyboardEvent) {
@@ -26,12 +32,20 @@ export default function Modal({
     return () => document.removeEventListener('keydown', onEscClose);
   }, [onClose]);
 
+  useLayoutEffect(() => {
+    firstFocusElementRef.current?.focus();
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close-btn" onClick={onClose}>
+        <button
+          className="modal-close-btn"
+          onClick={onClose}
+          ref={firstFocusElementRef}
+        >
           x
         </button>
         <h1 className="modal-title">{modalTitle}</h1>
