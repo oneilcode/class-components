@@ -1,5 +1,5 @@
-import { Controller, useForm } from 'react-hook-form';
 import type { IFormProps } from './UncontrolledForm';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useUserStore, type IFormData } from '../store/use-users-store';
 import { formSchema } from '../schemas/formSchema';
@@ -35,9 +35,10 @@ export default function ControlledForm({ onClose }: IFormProps) {
   // eslint-disable-next-line react-hooks/incompatible-library
   const password = watch('password');
 
-  const onSubmitHandler = (data: IFormData) => {
+  const onSubmitHandler = (data: Omit<IFormData, 'id' | 'file'>) => {
     const formDataWithImage = {
       ...data,
+      id: Date.now(),
       file: imageBase64,
     };
 

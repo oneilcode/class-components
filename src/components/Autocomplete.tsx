@@ -10,16 +10,16 @@ export default function Autocomplete({
   value = '',
   onChange,
 }: AutocompleteProps) {
-  const [suggestions, setSuggestions] = useState([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const containerRef = useRef(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const countries = useCountryStore((state) => state.countries);
 
   useEffect(() => {
-    const handleClickOutside = (event: Event) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         containerRef.current &&
-        !containerRef.current.contains(event.target)
+        !containerRef.current.contains(event.target as Node)
       ) {
         setShowSuggestions(false);
       }
@@ -31,7 +31,7 @@ export default function Autocomplete({
     };
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     onChange?.(query);
 

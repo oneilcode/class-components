@@ -19,7 +19,7 @@ export default function Modal({
   modalTitle,
 }: PropsWithChildren<IModalProps>) {
   const modalContainer = document.getElementById('modal-container');
-  const firstFocusElementRef = useRef(null);
+  const firstFocusElementRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     function onEscClose(e: KeyboardEvent) {
@@ -37,6 +37,7 @@ export default function Modal({
   }, [isOpen]);
 
   if (!isOpen) return null;
+  if (!modalContainer) return null;
 
   return createPortal(
     <div className="modal-overlay" onClick={onClose}>

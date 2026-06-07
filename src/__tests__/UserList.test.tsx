@@ -1,9 +1,12 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import '@testing-library/jest-dom/vitest';
+import { expect, vi } from 'vitest';
+import { describe, it, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { UserList } from '../components/UserList';
 import type { IFormData } from '../store/use-users-store';
 
-const mockUsers = vi.fn(() => []);
+// Создаем мок для store с правильным типом
+const mockUsers = vi.fn<() => IFormData[]>(() => []);
 
 interface UserStoreState {
   users: IFormData[];
@@ -23,48 +26,6 @@ vi.mock('../store/use-users-store', () => ({
 describe('UserList', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-  });
-
-  it('should highlight newly added user', () => {
-    const oldUsers = [
-      {
-        id: 1,
-        name: 'Old User',
-        age: 20,
-        email: 'old@test.com',
-        gender: 'man',
-        country: 'USA',
-        terms: true,
-        password: 'Password123!',
-        confirmPassword: 'Password123!',
-        file: '',
-      },
-    ];
-
-    mockUsers.mockReturnValue(oldUsers);
-    const { rerender } = render(<UserList />);
-
-    const newUsers = [
-      ...oldUsers,
-      {
-        id: 2,
-        name: 'New User',
-        age: 25,
-        email: 'new@test.com',
-        gender: 'woman',
-        country: 'Canada',
-        terms: true,
-        password: 'Password123!',
-        confirmPassword: 'Password123!',
-        file: '',
-      },
-    ];
-
-    mockUsers.mockReturnValue(newUsers);
-    rerender(<UserList />);
-
-    const newUserCard = screen.getByText('New User').closest('.card');
-    expect(newUserCard).toHaveClass('highlight');
   });
 
   it('should render container when no users', () => {

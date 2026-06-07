@@ -3,7 +3,7 @@ import { useUserStore } from '../store/use-users-store';
 
 export const UserList = () => {
   const users = useUserStore((state) => state.users);
-  const [highlightedUser, setHighlightedUser] = useState(null);
+  const [highlightedUser, setHighlightedUser] = useState<number | null>(null);
   const prevLengthRef = useRef(users.length);
 
   useEffect(() => {
