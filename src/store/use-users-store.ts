@@ -5,11 +5,11 @@ export interface IFormData {
   name: string;
   age: number;
   email: string;
-  gender: 'Man' | 'Woman';
+  gender: 'man' | 'woman';
   terms: boolean;
   password: string;
   confirmPassword: string;
-  file: string;
+  file?: string;
 }
 
 interface UserStore {

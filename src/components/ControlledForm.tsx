@@ -1,40 +1,16 @@
 import { useForm } from 'react-hook-form';
-import type { IFormData, IFormProps } from './UncontrolledForm';
-import { z } from 'zod';
+import type { IFormProps } from './UncontrolledForm';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { convertToBase64, validateFile } from '../utils/fileValidation';
-
-const formSchema = z
-  .object({
-    name: z.string().regex(/^[A-Z]/, 'First letter should be capital'),
-    age: z.coerce
-      .number()
-      .min(1, 'Age must be at least 1')
-      .max(99, 'Age must be at most 99'),
-    email: z.string().email('Invalid email address'),
-    gender: z.enum(['Man', 'Woman'], 'Choose gender'),
-    terms: z.boolean(),
-    password: z
-      .string()
-      .regex(/[0-9]/, 'Must contain a number')
-      .regex(/[A-Z]/, 'Must contain uppercase')
-      .regex(/[a-z]/, 'Must contain lowercase')
-      .regex(/[!@#$%^&*]/, 'Must contain special character'),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    error: 'The passwords dont match',
-    path: ['confirmPassword'],
-  })
-  .refine((checkboxValue) => checkboxValue.terms === true, {
-    error: 'You must accept the terms to continue',
-    path: ['terms'],
-  });
+import { useUserStore, type IFormData } from '../store/use-users-store';
+import { formSchema } from '../schemas/formSchema';
 
 export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
   const [imageBase64, setImageBase64] = useState<string>('');
   const [fileError, setFileError] = useState<string>('');
+
+  const addUser = useUserStore((state) => state.addUser);
 
   const {
     register,
@@ -80,6 +56,8 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
       ...data,
       file: imageBase64,
     };
+
+    addUser(formDataWithImage);
     console.log(formDataWithImage);
     onSubmit(formDataWithImage);
     onClose();

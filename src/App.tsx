@@ -2,10 +2,10 @@ import { useState } from 'react';
 import './App.css';
 import OpenModalBtn from './components/OpenModalBtn';
 import Modal from './components/Modal';
-import UncontrolledForm, {
-  type IFormData,
-} from './components/UncontrolledForm';
+import UncontrolledForm from './components/UncontrolledForm';
 import ControlledForm from './components/ControlledForm';
+import type { IFormData } from './store/use-users-store';
+import { UserList } from './components/UserList';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,6 +34,7 @@ function App() {
           title="Open React Hook Form"
         />
       </div>
+      <UserList />
       <div id="modal-container">
         <Modal
           isOpen={isOpen}
