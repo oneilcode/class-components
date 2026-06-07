@@ -6,11 +6,10 @@ import { PasswordStrength } from './PasswordStrength';
 import Autocomplete from './Autocomplete';
 
 export interface IFormProps {
-  onSubmit: (data: IFormData) => void;
   onClose: () => void;
 }
 
-export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
+export default function UncontrolledForm({ onClose }: IFormProps) {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [imageBase64, setImageBase64] = useState<string>('');
@@ -56,7 +55,6 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
     };
 
     const result = formSchema.safeParse(data);
-    console.log(result);
 
     if (!result.success) {
       const fieldErrors: Record<string, string> = {};
@@ -76,7 +74,6 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
 
     const dataWithId = { ...result.data, id: Date.now(), file: imageBase64 };
     addUser(dataWithId);
-    onSubmit(dataWithId);
     onClose();
   };
 

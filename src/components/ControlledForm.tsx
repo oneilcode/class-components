@@ -8,10 +8,9 @@ import { formSchema } from '../schemas/formSchema';
 import { PasswordStrength } from './PasswordStrength';
 import Autocomplete from './Autocomplete';
 
-export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
+export default function ControlledForm({ onClose }: IFormProps) {
   const [imageBase64, setImageBase64] = useState<string>('');
   const [fileError, setFileError] = useState<string>('');
-
   const addUser = useUserStore((state) => state.addUser);
 
   const {
@@ -19,7 +18,6 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    reset,
     watch,
   } = useForm({
     resolver: zodResolver(formSchema),
@@ -37,8 +35,6 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const password = watch('password');
-
-  console.log(password);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -68,9 +64,6 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
     };
 
     addUser(formDataWithImage);
-    console.log(formDataWithImage);
-    onSubmit(formDataWithImage);
-    reset();
     onClose();
   };
 

@@ -4,7 +4,6 @@ import OpenModalBtn from './components/OpenModalBtn';
 import Modal from './components/Modal';
 import UncontrolledForm from './components/UncontrolledForm';
 import ControlledForm from './components/ControlledForm';
-import type { IFormData } from './store/use-users-store';
 import { UserList } from './components/UserList';
 
 function App() {
@@ -12,10 +11,6 @@ function App() {
   const [formType, setFormType] = useState<
     'uncontrolled' | 'controlled' | null
   >(null);
-
-  const handleFormSubmit = (data: IFormData) => {
-    console.log(data);
-  };
 
   const handleOpenModal = (type: 'uncontrolled' | 'controlled') => {
     setIsOpen(true);
@@ -46,16 +41,10 @@ function App() {
           }
         >
           {formType === 'uncontrolled' && (
-            <UncontrolledForm
-              onSubmit={handleFormSubmit}
-              onClose={() => setIsOpen(false)}
-            />
+            <UncontrolledForm onClose={() => setIsOpen(false)} />
           )}
           {formType === 'controlled' && (
-            <ControlledForm
-              onSubmit={handleFormSubmit}
-              onClose={() => setIsOpen(false)}
-            />
+            <ControlledForm onClose={() => setIsOpen(false)} />
           )}
         </Modal>
       </div>
