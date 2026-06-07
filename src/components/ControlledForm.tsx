@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { convertToBase64, validateFile } from '../utils/fileValidation';
 import { useUserStore, type IFormData } from '../store/use-users-store';
 import { formSchema } from '../schemas/formSchema';
+import { PasswordStrength } from './PasswordStrength';
 
 export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
   const [imageBase64, setImageBase64] = useState<string>('');
@@ -17,6 +18,7 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
     handleSubmit,
     formState: { errors, isValid },
     reset,
+    watch,
   } = useForm({
     resolver: zodResolver(formSchema),
     mode: 'onChange',
@@ -30,6 +32,11 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
       confirmPassword: '',
     },
   });
+
+  // eslint-disable-next-line react-hooks/incompatible-library
+  const password = watch('password');
+
+  console.log(password);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -123,6 +130,7 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
         {errors.password && (
           <span style={{ color: 'red' }}>{errors.password.message}</span>
         )}
+        <PasswordStrength password={password} />
       </div>
 
       <div className="form-input">

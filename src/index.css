@@ -26,3 +26,8 @@ button:disabled {
 button:disabled:hover {
   background-color: rgb(78, 78, 75);
 }
+
+ul,
+ol {
+  list-style: none;
+}

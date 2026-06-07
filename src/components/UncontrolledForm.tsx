@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useUserStore, type IFormData } from '../store/use-users-store';
 import { formSchema } from '../schemas/formSchema';
 import { convertToBase64, validateFile } from '../utils/fileValidation';
+import { PasswordStrength } from './PasswordStrength';
 
 export interface IFormProps {
   onSubmit: (data: IFormData) => void;
@@ -12,6 +13,7 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [imageBase64, setImageBase64] = useState<string>('');
   const [fileError, setFileError] = useState<string>('');
+  const [password, setPassword] = useState('');
   const addUser = useUserStore((state) => state.addUser);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,10 +107,16 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
 
       <div className="form-input">
         <label htmlFor="password">Password</label>
-        <input type="password" id="password" name="password" />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
         {errors.password && (
           <span style={{ color: 'red' }}>{errors.password}</span>
         )}
+        <PasswordStrength password={password} />
       </div>
 
       <div className="form-input">
