@@ -10,13 +10,16 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      include: ['src/**/*.{test,spec}.{ts,tsx}'],
+      include: ['src/**/*.{ts,tsx}'], // ← измени: убрал .test. из include
       exclude: [
-        'src/**/*.test.{ts,tsx}',
-        'src/**/*.spec.{ts,tsx}',
+        'src/**/*.test.{ts,tsx}', // ← тесты исключаем
+        'src/**/*.spec.{ts,tsx}', // ← тесты исключаем
+        'src/__tests__/**', // ← папка с тестами
         'src/test/**',
         'src/main.tsx',
         'src/vite-env.d.ts',
+        'src/constants/**', // ← константы не нужно покрывать
+        'src/schemas/**', // ← схемы не нужно покрывать
       ],
       thresholds: {
         global: {
