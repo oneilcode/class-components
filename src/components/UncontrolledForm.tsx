@@ -1,42 +1,20 @@
 import { useState } from 'react';
 import { useUserStore, type IFormData } from '../store/use-users-store';
 import { formSchema } from '../schemas/formSchema';
-import { convertToBase64, validateFile } from '../utils/fileValidation';
 import { PasswordStrength } from './PasswordStrength';
 import Autocomplete from './Autocomplete';
+import { useFileUpload } from '../hooks/useFileUpload';
 
 export interface IFormProps {
   onClose: () => void;
 }
 
 export default function UncontrolledForm({ onClose }: IFormProps) {
+  const { imageBase64, fileError, handleFileChange } = useFileUpload();
   const [selectedCountry, setSelectedCountry] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [imageBase64, setImageBase64] = useState<string>('');
-  const [fileError, setFileError] = useState<string>('');
   const [password, setPassword] = useState('');
   const addUser = useUserStore((state) => state.addUser);
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-
-    if (!file) {
-      setImageBase64('');
-      setFileError('');
-      return;
-    }
-
-    const error = validateFile(file);
-    if (error) {
-      setFileError(error);
-      setImageBase64('');
-      return;
-    }
-
-    const base64 = await convertToBase64(file);
-    setImageBase64(base64);
-    setFileError('');
-  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

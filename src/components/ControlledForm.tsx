@@ -1,16 +1,14 @@
 import { Controller, useForm } from 'react-hook-form';
 import type { IFormProps } from './UncontrolledForm';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { convertToBase64, validateFile } from '../utils/fileValidation';
 import { useUserStore, type IFormData } from '../store/use-users-store';
 import { formSchema } from '../schemas/formSchema';
 import { PasswordStrength } from './PasswordStrength';
 import Autocomplete from './Autocomplete';
+import { useFileUpload } from '../hooks/useFileUpload';
 
 export default function ControlledForm({ onClose }: IFormProps) {
-  const [imageBase64, setImageBase64] = useState<string>('');
-  const [fileError, setFileError] = useState<string>('');
+  const { imageBase64, fileError, handleFileChange } = useFileUpload();
   const addUser = useUserStore((state) => state.addUser);
 
   const {
@@ -35,27 +33,6 @@ export default function ControlledForm({ onClose }: IFormProps) {
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const password = watch('password');
-
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-
-    if (!file) {
-      setImageBase64('');
-      setFileError('');
-      return;
-    }
-
-    const error = validateFile(file);
-    if (error) {
-      setFileError(error);
-      setImageBase64('');
-      return;
-    }
-
-    const base64 = await convertToBase64(file);
-    setImageBase64(base64);
-    setFileError('');
-  };
 
   const onSubmitHandler = (data: IFormData) => {
     const formDataWithImage = {
