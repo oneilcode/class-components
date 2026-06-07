@@ -111,6 +111,15 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
+        <label htmlFor="country">Country</label>
+        <input type="text" id="country" list="countries" />
+        <datalist id="countries">
+          <option value="Москва" />
+          <option value="Санкт-Петербург" />
+        </datalist>
+      </div>
+
+      <div className="form-input">
         <input type="radio" id="man" value="man" {...register('gender')} />
         <label htmlFor="man">Man</label>
         <input type="radio" id="woman" value="woman" {...register('gender')} />

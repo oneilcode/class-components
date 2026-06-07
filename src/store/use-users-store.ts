@@ -10,6 +10,7 @@ export interface IFormData {
   password: string;
   confirmPassword: string;
   file?: string;
+  country: string;
 }
 
 interface UserStore {

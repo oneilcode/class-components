@@ -3,6 +3,7 @@ import { useUserStore, type IFormData } from '../store/use-users-store';
 import { formSchema } from '../schemas/formSchema';
 import { convertToBase64, validateFile } from '../utils/fileValidation';
 import { PasswordStrength } from './PasswordStrength';
+import Autocomplete from './Autocomplete';
 
 export interface IFormProps {
   onSubmit: (data: IFormData) => void;
@@ -50,6 +51,7 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
       terms: formData.get('terms') === 'on',
       password: formData.get('password') as string,
       confirmPassword: formData.get('confirmPassword') as string,
+      country: formData.get('country') as string,
     };
 
     const result = formSchema.safeParse(data);
@@ -95,6 +97,13 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
         <label htmlFor="email">Email</label>
         <input type="text" name="email" id="email" />
         {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
+      </div>
+
+      <div className="form-input">
+        <Autocomplete />
+        {errors.country && (
+          <span style={{ color: 'red' }}>{errors.country}</span>
+        )}
       </div>
 
       <div className="form-input">

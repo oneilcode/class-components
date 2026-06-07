@@ -96,6 +96,21 @@
   gap: 10px;
 }
 
+.country-list {
+  position: 'absolute';
+  top: '100%';
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  z-index: 10;
+  overflow-y: 'auto';
+}
+
+.country-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
 /* user list */
 .cards-container {
   display: flex;

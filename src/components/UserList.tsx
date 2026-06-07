@@ -34,6 +34,7 @@ export const UserList = () => {
           <div className="card-details">
             <p>📧 {user.email}</p>
             <p>🎂 {user.age} years old</p>
+            <p>🎂 {user.country}</p>
           </div>
 
           {user.file ? (

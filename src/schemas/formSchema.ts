@@ -9,10 +9,10 @@ export const formSchema = z
       .max(99, 'Age must be at most 99'),
     email: z.email('Invalid email address'),
     gender: z.enum(['man', 'woman'], {
-      message: 'Choose gender',
+      message: 'Please select your gender',
     }),
     terms: z.boolean(),
-
+    country: z.string().min(1, 'Please select a country'),
     password: z
       .string()
       .regex(/[0-9]/, 'Must contain a number')
