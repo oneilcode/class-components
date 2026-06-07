@@ -17,9 +17,13 @@ export const UserList = () => {
             <p>🎂 {user.age} years old</p>
           </div>
 
-          {user.file && (
+          {user.file ? (
             <div className="card-image">
               <img src={user.file} alt={user.name} />
+            </div>
+          ) : (
+            <div className="card-image">
+              <img src="src/assets/react.svg" alt={user.name} />
             </div>
           )}
         </div>
