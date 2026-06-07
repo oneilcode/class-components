@@ -16,6 +16,7 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
     register,
     handleSubmit,
     formState: { errors, isValid },
+    reset,
   } = useForm({
     resolver: zodResolver(formSchema),
     mode: 'onChange',
@@ -60,6 +61,7 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
     addUser(formDataWithImage);
     console.log(formDataWithImage);
     onSubmit(formDataWithImage);
+    reset();
     onClose();
   };
 
@@ -102,9 +104,9 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
-        <input type="radio" id="man" value="Man" {...register('gender')} />
+        <input type="radio" id="man" value="man" {...register('gender')} />
         <label htmlFor="man">Man</label>
-        <input type="radio" id="woman" value="Woman" {...register('gender')} />
+        <input type="radio" id="woman" value="woman" {...register('gender')} />
         <label htmlFor="woman">Woman</label>
         {errors.gender && (
           <span style={{ color: 'red' }}>{errors.gender.message}</span>

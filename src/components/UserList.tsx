@@ -1,12 +1,31 @@
+import { useEffect, useRef, useState } from 'react';
 import { useUserStore } from '../store/use-users-store';
 
 export const UserList = () => {
   const users = useUserStore((state) => state.users);
+  const [highlightedUser, setHighlightedUser] = useState(null);
+  const prevLengthRef = useRef(users.length);
+
+  useEffect(() => {
+    if (users.length > prevLengthRef.current) {
+      const lastUser = users[users.length - 1];
+      setHighlightedUser(lastUser.id);
+
+      const timer = setTimeout(() => {
+        setHighlightedUser(null);
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [users.length, users]);
 
   return (
     <div className="cards-container">
       {users.map((user) => (
-        <div key={user.id} className="card">
+        <div
+          key={user.id}
+          className={highlightedUser === user.id ? 'highlight card' : 'card'}
+        >
           <div className="card-header">
             <h3 className="card-name">{user.name}</h3>
             <span className="card-gender">{user.gender}</span>
