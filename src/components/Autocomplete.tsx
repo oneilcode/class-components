@@ -1,8 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { useCountryStore } from '../store/use-country-store';
 
-export default function Autocomplete() {
-  const inputRef = useRef<HTMLInputElement>(null);
+interface AutocompleteProps {
+  value?: string;
+  onChange?: (value: string) => void;
+}
+
+export default function Autocomplete({
+  value = '',
+  onChange,
+}: AutocompleteProps) {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const containerRef = useRef(null);
@@ -26,6 +33,7 @@ export default function Autocomplete() {
 
   const handleChange = (e) => {
     const query = e.target.value;
+    onChange?.(query);
 
     if (query.length > 0) {
       const filtered = countries.filter((item) =>
@@ -38,10 +46,8 @@ export default function Autocomplete() {
     }
   };
 
-  const handleSelect = (suggestion) => {
-    if (inputRef.current) {
-      inputRef.current.value = suggestion;
-    }
+  const handleSelect = (country: string) => {
+    onChange?.(country);
     setShowSuggestions(false);
   };
 
@@ -53,6 +59,7 @@ export default function Autocomplete() {
     >
       <label htmlFor="country">Country</label>
       <input
+        value={value}
         type="text"
         name="country"
         id="country"

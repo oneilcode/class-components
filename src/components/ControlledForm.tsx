@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import type { IFormProps } from './UncontrolledForm';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
@@ -6,6 +6,7 @@ import { convertToBase64, validateFile } from '../utils/fileValidation';
 import { useUserStore, type IFormData } from '../store/use-users-store';
 import { formSchema } from '../schemas/formSchema';
 import { PasswordStrength } from './PasswordStrength';
+import Autocomplete from './Autocomplete';
 
 export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
   const [imageBase64, setImageBase64] = useState<string>('');
@@ -14,6 +15,7 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
   const addUser = useUserStore((state) => state.addUser);
 
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -111,12 +113,16 @@ export default function ControlledForm({ onSubmit, onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
-        <label htmlFor="country">Country</label>
-        <input type="text" id="country" list="countries" />
-        <datalist id="countries">
-          <option value="Москва" />
-          <option value="Санкт-Петербург" />
-        </datalist>
+        <Controller
+          name="country"
+          control={control}
+          render={({ field }) => (
+            <Autocomplete value={field.value} onChange={field.onChange} />
+          )}
+        />
+        {errors.country && (
+          <span style={{ color: 'red' }}>{errors.country.message}</span>
+        )}
       </div>
 
       <div className="form-input">

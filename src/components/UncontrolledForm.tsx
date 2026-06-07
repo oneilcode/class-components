@@ -11,6 +11,7 @@ export interface IFormProps {
 }
 
 export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
+  const [selectedCountry, setSelectedCountry] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [imageBase64, setImageBase64] = useState<string>('');
   const [fileError, setFileError] = useState<string>('');
@@ -100,7 +101,11 @@ export default function UncontrolledForm({ onSubmit, onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
-        <Autocomplete />
+        <Autocomplete
+          value={selectedCountry}
+          onChange={(country) => setSelectedCountry(country)}
+        />
+        <input type="hidden" name="country" value={selectedCountry} />
         {errors.country && (
           <span style={{ color: 'red' }}>{errors.country}</span>
         )}
