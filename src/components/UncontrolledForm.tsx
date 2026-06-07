@@ -4,6 +4,7 @@ import { formSchema } from '../schemas/formSchema';
 import { PasswordStrength } from './PasswordStrength';
 import Autocomplete from './Autocomplete';
 import { useFileUpload } from '../hooks/useFileUpload';
+import { FIELD_LABELS } from '../constants/fieldLabels';
 
 export interface IFormProps {
   onClose: () => void;
@@ -58,19 +59,19 @@ export default function UncontrolledForm({ onClose }: IFormProps) {
   return (
     <form className="form" onSubmit={handleSubmit}>
       <div className="form-input">
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name">{FIELD_LABELS.name}</label>
         <input type="text" name="name" id="name" />
         {errors.name && <span style={{ color: 'red' }}>{errors.name}</span>}
       </div>
 
       <div className="form-input">
-        <label htmlFor="age">Age</label>
+        <label htmlFor="age">{FIELD_LABELS.age}</label>
         <input type="number" name="age" id="age" />
         {errors.age && <span style={{ color: 'red' }}>{errors.age}</span>}
       </div>
 
       <div className="form-input">
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">{FIELD_LABELS.email}</label>
         <input type="text" name="email" id="email" />
         {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
       </div>
@@ -95,7 +96,7 @@ export default function UncontrolledForm({ onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password">{FIELD_LABELS.password}</label>
         <input
           type="password"
           id="password"
@@ -109,7 +110,7 @@ export default function UncontrolledForm({ onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
-        <label htmlFor="confirmPassword">Сonfirm password</label>
+        <label htmlFor="confirmPassword">{FIELD_LABELS.confirmPassword}</label>
         <input type="password" id="confirmPassword" name="confirmPassword" />
         {errors.confirmPassword && (
           <span style={{ color: 'red' }}>{errors.confirmPassword}</span>
@@ -117,7 +118,7 @@ export default function UncontrolledForm({ onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
-        <label htmlFor="file">Upload image</label>
+        <label htmlFor="file">{FIELD_LABELS.file}</label>
         <input
           type="file"
           id="file"
@@ -130,7 +131,7 @@ export default function UncontrolledForm({ onClose }: IFormProps) {
 
       <div className="form-input">
         <input type="checkbox" name="terms" id="terms" />
-        <label htmlFor="terms">Accept terms and conditions</label>
+        <label htmlFor="terms">{FIELD_LABELS.terms}</label>
         {errors.terms && <span style={{ color: 'red' }}>{errors.terms}</span>}
       </div>
 

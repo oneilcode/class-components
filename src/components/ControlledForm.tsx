@@ -6,6 +6,7 @@ import { formSchema } from '../schemas/formSchema';
 import { PasswordStrength } from './PasswordStrength';
 import Autocomplete from './Autocomplete';
 import { useFileUpload } from '../hooks/useFileUpload';
+import { FIELD_LABELS } from '../constants/fieldLabels';
 
 export default function ControlledForm({ onClose }: IFormProps) {
   const { imageBase64, fileError, handleFileChange } = useFileUpload();
@@ -47,7 +48,7 @@ export default function ControlledForm({ onClose }: IFormProps) {
   return (
     <form className="form" onSubmit={handleSubmit(onSubmitHandler)}>
       <div className="form-input">
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name">{FIELD_LABELS.name}</label>
         <input
           type="text"
           id="name"
@@ -59,7 +60,7 @@ export default function ControlledForm({ onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
-        <label htmlFor="age">Age</label>
+        <label htmlFor="age">{FIELD_LABELS.age}</label>
         <input
           type="number"
           id="age"
@@ -71,7 +72,7 @@ export default function ControlledForm({ onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">{FIELD_LABELS.email}</label>
         <input
           type="text"
           id="email"
@@ -106,7 +107,7 @@ export default function ControlledForm({ onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password">{FIELD_LABELS.password}</label>
         <input
           type="password"
           id="password"
@@ -119,7 +120,7 @@ export default function ControlledForm({ onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
-        <label htmlFor="confirmPassword">Сonfirm password</label>
+        <label htmlFor="confirmPassword">{FIELD_LABELS.confirmPassword}</label>
         <input
           type="password"
           id="confirmPassword"
@@ -131,7 +132,7 @@ export default function ControlledForm({ onClose }: IFormProps) {
       </div>
 
       <div className="form-input">
-        <label htmlFor="file">Upload image</label>
+        <label htmlFor="file">{FIELD_LABELS.file}</label>
         <input
           type="file"
           id="file"
@@ -143,7 +144,7 @@ export default function ControlledForm({ onClose }: IFormProps) {
 
       <div className="form-input">
         <input type="checkbox" id="terms" {...register('terms')} />
-        <label htmlFor="terms">Accept terms and conditions</label>
+        <label htmlFor="terms">{FIELD_LABELS.terms}</label>
         {errors.terms && (
           <span style={{ color: 'red' }}>{errors.terms.message}</span>
         )}

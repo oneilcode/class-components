@@ -65,7 +65,7 @@ export default function Autocomplete({
         id="country"
         onChange={handleChange}
         onFocus={() => setShowSuggestions(true)}
-        placeholder="Your country..."
+        placeholder="Enter your country..."
       />
 
       {showSuggestions && suggestions.length > 0 && (
