@@ -1,3 +1,6 @@
 .countryList {
   padding: 16px;
+  height: 100%;
+  width: 100%;
+  position: relative;
 }

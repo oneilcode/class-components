@@ -117,18 +117,21 @@ export const App = () => {
       </div>
 
       {/* Country List */}
-      <CountryList
-        countries={data}
-        searchQuery={state.searchQuery}
-        selectedColumns={state.selectedColumns}
-        selectedRegion={state.selectedRegion}
-        selectedYear={state.selectedYear}
-        sortField={state.sortField}
-        sortOrder={state.sortOrder}
-        onYearChange={handleYearChange}
-      />
+      <div style={{ height: '100vh' }}>
+        <CountryList
+          countries={data}
+          searchQuery={state.searchQuery}
+          selectedColumns={state.selectedColumns}
+          selectedRegion={state.selectedRegion}
+          selectedYear={state.selectedYear}
+          sortField={state.sortField}
+          sortOrder={state.sortOrder}
+          onYearChange={handleYearChange}
+        />
+      </div>
 
       {/* Column Modal */}
+
       <ColumnModal
         isOpen={state.isColumnModalOpen}
         availableColumns={availableColumns}
