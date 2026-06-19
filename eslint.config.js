@@ -24,18 +24,6 @@ export default defineConfig([
     },
 
     rules: {
-      'react-refresh/only-export-components': [
-        'warn',
-        {
-          allowConstantExport: true,
-          allowExportNames: [
-            'metadata',
-            'generateMetadata',
-            'generateStaticParams',
-          ],
-        },
-      ],
-
       'react/prop-types': 'off',
       'react/react-in-jsx-scope': 'off',
     },
