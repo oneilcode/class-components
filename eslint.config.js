@@ -37,18 +37,6 @@ export default defineConfig([
     rules: {
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs['core-web-vitals'].rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        {
-          allowConstantExport: true,
-          allowExportNames: [
-            'metadata',
-            'generateMetadata',
-            'generateStaticParams',
-            'viewport',
-          ],
-        },
-      ],
     },
   },
 ]);
