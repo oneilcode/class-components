@@ -8,9 +8,14 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 import nextPlugin from '@next/eslint-plugin-next';
 
 export default defineConfig([
-  globalIgnores(['dist', '.next']),
+  globalIgnores(['dist', '.next', 'coverage']),
   {
     files: ['**/*.{ts,tsx}'],
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,
