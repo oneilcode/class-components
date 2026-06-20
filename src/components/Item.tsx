@@ -5,11 +5,11 @@ interface ItemProps {
 }
 
 export default function Item({ item }: ItemProps) {
-  const { isSelected, toggleItem } = useSelectedItemsStore();
+  const store = useSelectedItemsStore();
 
-  const clickOnCheckbox = (e: React.MouseEvent) => {
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.stopPropagation();
-    toggleItem(item);
+    store.toggleItem(item);
   };
 
   return (
@@ -17,8 +17,8 @@ export default function Item({ item }: ItemProps) {
       <td>
         <input
           type="checkbox"
-          checked={isSelected(item.name)}
-          onClick={clickOnCheckbox}
+          checked={store.isSelected(item.name)}
+          onChange={handleCheckboxChange}
         />
       </td>
       <td>{item.name}</td>
