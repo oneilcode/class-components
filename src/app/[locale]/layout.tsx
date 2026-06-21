@@ -14,14 +14,10 @@ export default async function LocaleLayout({
   const messages = await getMessages({ locale });
 
   return (
-    <html lang={locale}>
-      <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <Providers>
-            <Layout>{children}</Layout>
-          </Providers>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <Providers>
+        <Layout>{children}</Layout>
+      </Providers>
+    </NextIntlClientProvider>
   );
 }
