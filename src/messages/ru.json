@@ -6,5 +6,34 @@
   "Search": {
     "search": "Найти",
     "refresh": "Перезагрузить"
+  },
+  "Results": {
+    "results": "Результаты поиска",
+    "selected": "Выбрать",
+    "item_name": "Наименование",
+    "item_desc": "Описание",
+    "loading": "Загрузка",
+    "no_results_found": "Ничего не найдено"
+  },
+  "About": {
+    "title": "О приложении",
+    "description": " Это приложение демонстрирует функциональность поиска с пагинацией и маршрутизацией.",
+    "course_desc": "Создано в рамках курса по React в RS School",
+    "course_name": "RS School React курс",
+    "created_by": "Создано",
+    "created_by_name": "Виктория О'Нил"
+  },
+  "Error": {
+    "test_error": "Сгенерировать ошибку"
+  },
+  "Flyout": {
+    "selected": "Выбраные элементы",
+    "unselect": "Отменить выделения",
+    "download": "Скачать"
+  },
+  "Not_found": {
+    "title": "404 - Page Not Found",
+    "decription": "Sorry, the page you are looking for does not exist.",
+    "back_home": "Go back to Home"
   }
 }

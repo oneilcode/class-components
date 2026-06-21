@@ -5,6 +5,7 @@ import type { IItem } from '../store/use-items-store';
 import Item from './Item';
 import Pagination from './Pagination';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 const ROWS_PER_PAGE = 10;
 interface ResultsProps {
@@ -20,6 +21,7 @@ export default function Results({ items, isLoading, error }: ResultsProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const page = Number(searchParams?.get('page')) || 1;
+  const t = useTranslations('Results');
 
   const currentPageItems = useMemo(() => {
     const startIndex = (page - 1) * ROWS_PER_PAGE;
@@ -45,21 +47,21 @@ export default function Results({ items, isLoading, error }: ResultsProps) {
     updateUrlParams(prev);
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>{t('loading')}...</div>;
 
   if (error) return <div>{error}</div>;
 
-  if (items.length === 0) return <div>No results found</div>;
+  if (items.length === 0) return <div>{t('no_results_found')}</div>;
 
   return (
     <div className="results-wrapper">
-      <h1>Search results</h1>
+      <h1>{t('results')}</h1>
       <table className="results-table">
         <thead>
           <tr>
-            <th>Selected</th>
-            <th>Item Name</th>
-            <th>Item Description</th>
+            <th>{t('selected')}</th>
+            <th>{t('item_name')}</th>
+            <th>{t('item_desc')}</th>
           </tr>
         </thead>
         <tbody>

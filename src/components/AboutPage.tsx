@@ -1,28 +1,28 @@
+import { useTranslations } from 'next-intl';
+
 export default function AboutPage() {
+  const t = useTranslations('About');
   return (
     <div className="about-page">
-      <h1>About this app</h1>
-      <p>
-        This application demonstrates search functionality with pagination and
-        routing.
-      </p>
-      <p>Created as part of React course at RS School.</p>
+      <h1>{t('title')}</h1>
+      <p>{t('description')}</p>
+      <p>{t('course_desc')}</p>
       <a
         href="https://rs.school/courses/reactjs"
         target="_blank"
         rel="noopener noreferrer"
       >
-        RS School React Course
+        {t('course_name')}
       </a>
 
       <div className="author-link">
-        <p>Created by:</p>
+        <p>{t('created_by')}:</p>
         <a
           href="https://github.com/oneilcode"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Viktoria O&apos;Neil
+          {t('created_by_name')}
         </a>
       </div>
     </div>

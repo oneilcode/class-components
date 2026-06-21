@@ -8,7 +8,32 @@
     "refresh": "Refresh"
   },
   "Results": {
+    "results": "Search results",
     "selected": "Selected",
-    "item_name": "Item Name"
+    "item_name": "Item Name",
+    "item_desc": "Item Description",
+    "loading": "Loading",
+    "no_results_found": "No results found"
+  },
+  "About": {
+    "title": "About this app",
+    "description": " This application demonstrates search functionality with pagination and routing.",
+    "course_desc": "Created as part of React course at RS School",
+    "course_name": "RS School React Course",
+    "created_by": "Created by",
+    "created_by_name": "Viktoria O'Neil"
+  },
+  "Error": {
+    "test_error": "Test Error"
+  },
+  "Flyout": {
+    "selected": "Selected items",
+    "unselect": "Unselect all",
+    "download": "Download"
+  },
+  "Not_found": {
+    "title": "404 - Page Not Found",
+    "decription": "Sorry, the page you are looking for does not exist.",
+    "back_home": "Go back to Home"
   }
 }

@@ -1,13 +1,15 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 
 export default function NotFoundPage() {
+  const t = useTranslations('Not_found');
   return (
     <>
-      <h1>404 - Page Not Found</h1>
-      <p>Sorry, the page you are looking for does not exist.</p>
-      <Link href="/">Go back to Home</Link>
+      <h1>{t('title')}</h1>
+      <p>{t('decription')}</p>
+      <Link href="/">{t('back_home')}</Link>
     </>
   );
 }
