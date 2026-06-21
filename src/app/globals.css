@@ -261,3 +261,58 @@ body {
 .pagination span {
   font-size: 14px;
 }
+
+/* Language Switcher */
+.lang-switcher {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.lang-switcher button {
+  padding: 4px 8px;
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.lang-switcher button:hover {
+  color: #000;
+}
+
+.lang-switcher button.active {
+  color: #000;
+  font-weight: bold;
+}
+
+.lang-switcher button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 2px;
+  background: #0070f3;
+  border-radius: 2px;
+}
+
+.dark .lang-switcher button {
+  color: #aaa;
+}
+
+.dark .lang-switcher button:hover {
+  color: #fff;
+}
+
+.dark .lang-switcher button.active {
+  color: #fff;
+}
+
+.dark .lang-switcher button.active::after {
+  background: #60a5fa;
+}

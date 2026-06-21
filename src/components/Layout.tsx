@@ -15,10 +15,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className={`app ${isDark ? 'dark' : 'light'}`}>
       <div className="layout-nav">
         <nav>
-          <LanguageSwitcher />
           <Link href="/">{t('home')}</Link>
           <Link href="/about">{t('about')}</Link>
           <ThemeButton />
+          <LanguageSwitcher />
         </nav>
         <main className="layout-main">{children}</main>
         <Flyout />
