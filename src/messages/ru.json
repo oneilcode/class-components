@@ -1,0 +1,10 @@
+{
+  "Navigation": {
+    "home": "Главная",
+    "about": "О нас"
+  },
+  "Search": {
+    "search": "Найти",
+    "refresh": "Перезагрузить"
+  }
+}

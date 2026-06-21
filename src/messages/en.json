@@ -1,0 +1,14 @@
+{
+  "Navigation": {
+    "home": "Home",
+    "about": "About"
+  },
+  "Search": {
+    "search": "Search",
+    "refresh": "Refresh"
+  },
+  "Results": {
+    "selected": "Selected",
+    "item_name": "Item Name"
+  }
+}
