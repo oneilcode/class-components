@@ -3,16 +3,11 @@
     "target": "ES2020",
     "baseUrl": "src/",
     "paths": {
-      "@/components/*": [
-        "components/*"
-      ]
+      "@/components/*": ["components/*"],
+      "@/i18n/*": ["i18n/*"]
     },
     "useDefineForClassFields": true,
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -43,7 +38,5 @@
     "dist/dev/types/**/*.ts",
     "./dist/dev/types/**/*.ts"
   ],
-  "exclude": [
-    "./node_modules"
-  ]
+  "exclude": ["./node_modules"]
 }

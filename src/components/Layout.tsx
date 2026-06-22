@@ -1,11 +1,11 @@
 'use client';
 
-import Link from 'next/link';
 import ThemeButton from './ThemeButton';
 import Flyout from './Flyout';
 import { useTheme } from 'context/hooks/useTheme';
 import LanguageSwitcher from 'app/[locale]/LanguageSwitcher';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { isDark } = useTheme();
