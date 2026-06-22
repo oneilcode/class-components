@@ -1,3 +1,5 @@
+'use client';
+
 import { useTheme } from '../context/hooks/useTheme';
 
 export default function ThemeButton() {

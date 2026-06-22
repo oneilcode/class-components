@@ -1,14 +1,18 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'next/navigation';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import Results from './Results';
 import fetchPokemons from '../api/pokemonApi';
 import RefreshButton from './RefreshButton';
+import { useTranslations } from 'next-intl';
 
 export default function Search() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const [value, setValue] = useState(searchParams.get('q') || '');
   const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || '');
+  const t = useTranslations('Search');
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['pokemons', searchTerm],
@@ -48,8 +52,16 @@ export default function Search() {
     const trimmed = value.trim();
     if (trimmed) {
       setSearchTerm(trimmed);
-      setSearchParams({ q: trimmed, page: '1' });
+      updateUrlParams(trimmed);
     }
+  };
+
+  const updateUrlParams = (term: string) => {
+    const params = new URLSearchParams();
+    params.set('q', term);
+    params.set('page', '1');
+
+    window.history.pushState(null, '', `?${params.toString()}`);
   };
 
   const handleRefresh = () => {
@@ -60,7 +72,7 @@ export default function Search() {
     <>
       <div className="search-wrapper">
         <input value={value} onChange={handleInputChange} />
-        <button onClick={handleSearchClick}>Search</button>
+        <button onClick={handleSearchClick}>{t('search')}</button>
         <RefreshButton clickRefresh={handleRefresh} />
       </div>
       <Results

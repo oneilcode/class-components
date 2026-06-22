@@ -1,7 +1,9 @@
+import { useTranslations } from 'next-intl';
 import { useSelectedItemsStore, type IItem } from '../store/use-items-store';
 
 export default function Flyout() {
   const { selectedItems, unselectAll } = useSelectedItemsStore();
+  const t = useTranslations('Flyout');
 
   const convertToCSV = (data: IItem[]) => {
     if (data.length === 0) return '';
@@ -52,10 +54,14 @@ export default function Flyout() {
     <>
       {selectedItems.length !== 0 && (
         <div className="flyout">
-          <div>Selected items: {selectedItems.length}</div>
+          <div>
+            {t('selected')}: {selectedItems.length}
+          </div>
           <div className="flyout-buttons">
-            <button onClick={unselectAll}>Unselect all</button>
-            <button onClick={() => downloadCSV(selectedItems)}>Download</button>
+            <button onClick={unselectAll}>{t('unselect')}</button>
+            <button onClick={() => downloadCSV(selectedItems)}>
+              {t('download')}
+            </button>
           </div>
         </div>
       )}

@@ -1,19 +1,28 @@
-import { Link, Outlet } from 'react-router-dom';
+'use client';
+
 import ThemeButton from './ThemeButton';
 import Flyout from './Flyout';
+import { useTheme } from 'context/hooks/useTheme';
+import LanguageSwitcher from 'app/[locale]/LanguageSwitcher';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 
-export default function Layout() {
+export default function Layout({ children }: { children: React.ReactNode }) {
+  const { isDark } = useTheme();
+  const t = useTranslations('Navigation');
+
   return (
-    <div className="layout-nav">
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <ThemeButton />
-      </nav>
-      <main className="layout-main">
-        <Outlet />
-      </main>
-      <Flyout />
+    <div className={`app ${isDark ? 'dark' : 'light'}`}>
+      <div className="layout-nav">
+        <nav>
+          <Link href="/">{t('home')}</Link>
+          <Link href="/about">{t('about')}</Link>
+          <ThemeButton />
+          <LanguageSwitcher />
+        </nav>
+        <main className="layout-main">{children}</main>
+        <Flyout />
+      </div>
     </div>
   );
 }
