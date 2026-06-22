@@ -1,7 +1,7 @@
 'use client';
 
+import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
 
 export default function NotFoundPage() {
   const t = useTranslations('Not_found');
