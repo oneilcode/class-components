@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import Image from 'next/image';
 
 export async function generateStaticParams() {
   return [{ locale: 'en' }, { locale: 'ru' }];
@@ -18,13 +19,22 @@ export default async function AboutPage({
       <h1>{t('title')}</h1>
       <p>{t('description')}</p>
       <p>{t('course_desc')}</p>
-      <a
-        href="https://rs.school/courses/reactjs"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {t('course_name')}
-      </a>
+      <div className="about-course">
+        <Image
+          src="/images/rss-logo.svg"
+          alt={t('course_name')}
+          width={30}
+          height={30}
+        />
+
+        <a
+          href="https://rs.school/courses/reactjs"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {t('course_name')}
+        </a>
+      </div>
 
       <div className="author-link">
         <p>{t('created_by')}:</p>
